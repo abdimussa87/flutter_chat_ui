@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_chat_ui/models/message_model.dart';
 import 'package:flutter_chat_ui/models/user_model.dart';
+import 'package:flutter_chat_ui/screens/single_chat_screen.dart';
 
 class Chats extends StatefulWidget {
   @override
@@ -29,54 +30,63 @@ class _ChatsState extends State<Chats> {
               itemCount: chats.length,
               itemBuilder: (context, int index) {
                 Message message = chats[index];
-                return Padding(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 3,
+                return GestureDetector(
+                  onTap: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (_) => SingleChatScreen(
+                        user: message.sender,
+                      ),
+                    ),
                   ),
-                  child: Container(
+                  child: Padding(
                     padding: const EdgeInsets.symmetric(
-                      vertical: 15,
+                      vertical: 3,
                     ),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(15),
-                      color:
-                          message.unread ? Color(0xFFFFEFEE) : Colors.white60,
-                    ),
-                    child: ListTile(
-                      leading: CircleAvatar(
-                        backgroundImage: AssetImage(
-                          message.sender.imageUrl,
-                        ),
-                        radius: 30,
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        vertical: 15,
                       ),
-                      title: Text(message.sender.name),
-                      subtitle: Text(
-                        message.text,
-                        style: TextStyle(
-                          color: Colors.blueGrey,
-                        ),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        color:
+                            message.unread ? Color(0xFFFFEFEE) : Colors.white60,
                       ),
-                      trailing: Column(
-                        children: <Widget>[
-                          Text(message.time),
-                          SizedBox(
-                            height: 10,
+                      child: ListTile(
+                        leading: CircleAvatar(
+                          backgroundImage: AssetImage(
+                            message.sender.imageUrl,
                           ),
-                          message.unread
-                              ? Container(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: 5, horizontal: 15),
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(15),
-                                    color: Colors.red,
-                                  ),
-                                  child: Text(
-                                    "New",
-                                    style: TextStyle(
-                                        color: Colors.white, fontSize: 13),
-                                  ))
-                              : SizedBox.shrink(),
-                        ],
+                          radius: 30,
+                        ),
+                        title: Text(message.sender.name),
+                        subtitle: Text(
+                          message.text,
+                          style: TextStyle(
+                            color: Colors.blueGrey,
+                          ),
+                        ),
+                        trailing: Column(
+                          children: <Widget>[
+                            Text(message.time),
+                            SizedBox(
+                              height: 10,
+                            ),
+                            message.unread
+                                ? Container(
+                                    padding: EdgeInsets.symmetric(
+                                        vertical: 5, horizontal: 15),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(15),
+                                      color: Colors.red,
+                                    ),
+                                    child: Text(
+                                      "New",
+                                      style: TextStyle(
+                                          color: Colors.white, fontSize: 13),
+                                    ))
+                                : SizedBox.shrink(),
+                          ],
+                        ),
                       ),
                     ),
                   ),
